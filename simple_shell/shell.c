@@ -32,15 +32,11 @@ char *get_filepath(char *command)
 	return (NULL);
 }
 
-
-char **make_argv(char *string)
+int word_count(char *string)
 {
-	/*char **array = NULL;*/
-	char *find_delim = NULL, *token = NULL;
 	int count = 0;
-	int i;
 
-	find_delim = string;
+	char *find_delim = string;
 
 	while (*find_delim)
 	{
@@ -48,7 +44,26 @@ char **make_argv(char *string)
 			count++;
 		find_delim++;
 	}
-	count++;
+	count += 2;
+	return (count);
+}
+
+char **make_argv(char *string)
+{
+	char *token = NULL;
+	int i, count = 0;
+
+	/*find_delim = string;
+
+	  while (*find_delim)
+	  {
+	  if (*find_delim == ' ')
+	  count++;
+	  find_delim++;
+	  }
+	  count++;*/
+
+	count = word_count(string);
 
 	array = malloc(sizeof(char *) * (count + 1));
 	array[count] = NULL;
@@ -63,6 +78,20 @@ char **make_argv(char *string)
 	}
 	if (*token != '/')
 	{
+		if (!strcmp(token, "exit"))
+		{
+			free(array);
+			free(string);
+			exit(0);
+		}
+		/*if (!strcmp(argv[0], "env"))
+		  {
+		  env_builtin();
+		  free(argv);
+		  free(usr_input);
+		  return (NULL);
+		  }*/
+
 		array[i] = get_filepath(token);
 		if (!array[i])
 		{
@@ -96,6 +125,20 @@ void exec_command(char *usr_input)
 		free(usr_input);
 		return;
 	}
+
+	/*if (!strcmp(argv[0], "exit"))
+	  {
+	  free(argv);
+	  free(usr_input);
+	  exit(0);
+	  }
+	  if (!strcmp(argv[0], "env"))
+	  {
+	  env_builtin();
+	  free(argv);
+	  free(usr_input);
+	  return;
+	  }*/
 
         is_parent = fork();
         if (is_parent == 0)
@@ -141,8 +184,8 @@ int main(void)
 			free(usr_input);
 			continue;
 		}
-		if (!strcmp(usr_input, "exit"))
-			break;
+		/*if (!strcmp(usr_input, "exit"))
+		  break;*/
 		if (!strcmp(usr_input, "env"))
 		{
 			env_builtin();

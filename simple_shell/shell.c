@@ -88,7 +88,7 @@ char **make_argv(char *string)
 	array = malloc(sizeof(char *) * (count + 1));
 	array[count] = NULL;
 	i = 0;
-	token = strtok(string, " ");
+	token = strtok(string, " \t");
 	if (!token)
 	{
 		free(array);
@@ -97,7 +97,7 @@ char **make_argv(char *string)
 	array[i++] = token;
 	while (token)
 	{
-		token = strtok(NULL, " ");
+		token = strtok(NULL, " \t");
 		array[i] = token;
 		i++;
 	}
@@ -158,7 +158,7 @@ void exec_command(char *usr_input)
 	wait(NULL);
 	free(argv);
 	free(usr_input);
-	return (void);
+	return;
 }
 
 /**

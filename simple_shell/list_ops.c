@@ -1,5 +1,12 @@
 #include "seashell.h"
 
+/**
+ * free_list - Function the frees linked list
+ *
+ * @head: Points to node in the beginning
+ * Return: void
+ */
+
 void free_list(dir_list_t **head)
 {
 	dir_list_t *temp;
@@ -15,6 +22,14 @@ void free_list(dir_list_t **head)
 		*head = temp;
 	}
 }
+
+/**
+ * add_node_end - Function adds node to end of linkedlist
+ *
+ * @head: Beginnig of linked list
+ * @str: String being checked
+ * Return: Returns address of new_node
+ */
 
 dir_list_t *add_node_end(dir_list_t **head, const char *str)
 {
@@ -50,6 +65,13 @@ dir_list_t *add_node_end(dir_list_t **head, const char *str)
 	return (new_node);
 }
 
+/**
+ * _getenv - Function that searches for environment var
+ *
+ * @name: name of environment variable
+ * Return: Pointer to corresponding value
+ */
+
 char *_getenv(char *name)
 {
 	char *token = NULL;
@@ -60,7 +82,7 @@ char *_getenv(char *name)
 		env_cpy = strdup(*environ);
 		token = strtok(env_cpy, "=");
 
-		if(!strcmp(token, name))
+		if (!strcmp(token, name))
 		{
 			token = strtok(NULL, "\0");
 			/*token = strdup(token);*/
@@ -72,6 +94,12 @@ char *_getenv(char *name)
 	return (NULL);
 }
 
+/**
+ * make_path_list - Function that gets PATH to a variable
+ *
+ * Return: head
+ */
+
 dir_list_t *make_path_list(void)
 {
 	char *path_value = NULL;
@@ -80,7 +108,7 @@ dir_list_t *make_path_list(void)
 
 	path_value = _getenv("PATH");
 	if (!path_value)
-		return(NULL);
+		return (NULL);
 
 	head = NULL;
 
